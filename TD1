@@ -22,7 +22,7 @@ cd home
 ```
 6. Go to your home directory
 ```
-cd plejamtel
+cd vsun
 ```
 7. Go back to the general home directory (located "just above")
 ```
@@ -68,7 +68,7 @@ cd linux_ex_1
 ```
 5. Create an empty text file named [first_name]_[last_name].txt (e.g. alexis_bogroff.txt)
 ```
-touch paul_lejamtel.txt
+touch virien_sun.txt
 ```
 6. Create a folder notes
 ```
@@ -80,7 +80,7 @@ mv paul_lejamtel.txt notes
 ```
 8. Rename the text file by appending the current year [first_name]_[last_name]_[current_year].txt
 ```
-mv paul_lejamtel.txt paul_lejamtel_2023.txt
+mv virien_sun.txt virien_sun_2023.txt
 ```
 9. Make a copy of this folder, name it notes_2023
 ```
