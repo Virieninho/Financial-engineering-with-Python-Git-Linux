@@ -1,0 +1,41 @@
+# TD5
+## Exercise 1: Extract data from a website
+Exercise 1:.1 curl
+Exercise 1:.2 curl and grep
+```
+curl -s "https://opendomesday.org/api/1.0/county/derbyshire/" | jq '.places[].id'
+```
+Exercise 1:.3 curl, grep and for
+```
+#!/bin/bash
+
+# Get the IDs of all the places in Derbyshire
+curl -s "https://opendomesday.org/api/1.0/places/?county=Derbyshire" > derbyshire_places.json
+
+# Extract the place IDs
+place_ids=$(jq -r '.features[].id' derbyshire_places.json)
+
+# Loop through the place IDs and get the details of their manors
+for place_id in $place_ids
+do
+  curl -s "https://opendomesday.org/api/1.0/manors/?place_id=${place_id}" >> derbyshire_manors.json
+done
+
+# Extract the required information using grep
+grep "name\|place_id\|manor_type\|tenants_in_1086" derbyshire_manors.json > derbyshire_manors_info.txt
+```
+Exercise 1:.4 curl, grep, for and sed
+```
+import json
+
+with open('derbyshire_manors.json') as f:
+    data = json.load(f)
+
+for manor in data['manors']:
+    name = manor['name']
+    ploughs = manor['ploughs']
+    geld = manor['geld']
+    print(f"{name}, {ploughs}, {geld}")
+
+python extract_data.py > derbyshire_manors.csv
+```
