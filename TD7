@@ -1,0 +1,125 @@
+# TD7
+## Exercice 1 Clone a Git repository
+```
+git clone https://github.com/baptistepallas/TD-Financial-Engineering-with-Python-Git-Linux/tree/main/TD
+```
+## Exercice 2  Push files to common repository
+1. Create a branch named after you.
+```
+cd example-repo
+git checkout -b test2
+```
+2. Create a new text file named after you (with the content you want).
+```
+echo "Your content here" > test2.txt
+```
+3. Commit this new file.
+```
+git add test2.txt
+git commit -m "Add test2.txt file"
+```
+4. Push your branch to the remote repository.
+```
+git push origin test2
+```
+## Exercice 3  Merge simple changes
+1. Merge your branch into the ’master’ branch.
+```
+git checkout master
+git merge test2
+```
+2. Push your changes in the ’master’ branch to the remote repository.
+```
+git push origin master
+git push origin main
+```
+## Exercice 4 Resolve merge conflicts
+1. Switch back to your own branch (not including the latest changes from the master branch).
+```
+git checkout test2
+```
+2. Edit the lines 2 to 6 of the README.md file with a text you like (a poem, a quote, some clever code...).
+```
+nano README.md
+```
+3. Commit this change.
+```
+git add README.md
+git commit -m "Update README.md with custom content"
+```
+4. Pull latest status from the remote repository ’master’ branch into your local ’master’ branch.
+```
+git checkout master
+git pull origin master
+```
+5. Merge your branch into the local ’master’ branch.
+```
+git merge test2git merge test2
+```
+7. Push your changes in the ’master’ branch to the remote repository.
+```
+git add README.md
+git commit -m "Resolve merge conflicts in README.md"
+git push origin master
+```
+## Exercice 5 Take latest changes from master in local branch
+1. Pull the latest changes in the ’master’ branch, check the README.md is up-to-date (contains all the paragraphs and the new line).
+```
+git checkout master
+git pull origin master
+cat README.md
+```
+2. Switch back to your own branch (not including the latest changes from the master branch).
+```
+git checkout test2
+```
+3. Merge the changes from ’master’ to your own branch.
+```
+git merge master
+```
+4. Commit this change.
+```
+git add README.md
+git commit -m "Merge changes from master into my branch"
+```
+## Exercice 6  Delete a branch
+1. Delete your branch on local repository.
+```
+git checkout master
+git branch -d test2
+```
+2. Delete your branch on distant repository.
+```
+git push origin --delete test2
+```
+## Exercice 7 Rebase interactively to have a clean history
+1. Pull the latest changes in the ’master’ branch.
+```
+git checkout master
+git pull origin master
+```
+2. Create a new local branch named after you and switch to it.
+```
+git checkout -b test3
+```
+3. Then with a separate commit for each change :
+4. Use interactive rebase to have a single commit with message "Explain git interactive rebase.".
+```
+git rebase -i commit-hash^
+```
+5. Push your branch on the remote repository.
+```
+git push origin test3
+```
+## Exercice 8 Create and approve a Merge/Pull Request
+```
+git checkout master
+git pull origin master
+git checkout test2
+git rebase master
+
+git add path/to/conflicted-file
+git rebase --continue
+
+git push -f origin test2
+```
