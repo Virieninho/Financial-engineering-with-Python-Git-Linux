@@ -1,0 +1,165 @@
+## Exercice 1 Working Directory
+1. Create an empty working directory called “td4”.
+```
+mkdir td4
+```
+2. Initialize a Git repository in it.
+```
+cd td4
+git init
+```
+3. Install the Linux python3-pip package using your Linux package manager.
+```
+sudo apt-get install python3-pip
+```
+4. Install the VirtualEnv Python package using pip3.
+```
+sudo pip3 install virtualenv
+```
+5. Create a Python virtual environment called “.env”.
+```
+virtualenv .env
+```
+6. Activate your virtual environment.
+```
+source .env/bin/activate
+```
+7. List the Python packages installed in your virtual environment.
+```
+pip list
+```
+8. Does Git want you to commit something ?
+```
+git status
+```
+9. Create a .gitignore file to tell Git which files should be untracked.
+```
+touch .gitignore
+```
+10. Does Git want you to commit something ?
+```
+git status
+```
+## Exercice 2 Python Script
+1. Install the Python package Requests using pip.
+```
+pip3 install requests
+```
+2. Create a Python script that returns the list of all place ids in Derbyshire.
+```
+import requests
+
+url = 'https://www.nomisweb.co.uk/api/v01/dataset/NM_144_1.jsonstat.json?geo=all&time=latest'
+response = requests.get(url)
+data = response.json()
+
+derbyshire = data['dimension']['geography']['category']['index']['E10000007']
+place_ids = [place['id'] for place in derbyshire['category']['index'].values()]
+
+print(place_ids)
+```
+3. Commit your changes in Git
+```
+git status
+git add get_place_ids.py
+git commit -m "Added script to retrieve place ids in Derbyshire"
+```
+## Exercice 3 Python Module
+1. Create a Python module with a get_manor_ids function that takes a place id as parameter and returns the list of manors.
+```
+import requests
+
+def get_manor_ids(place_id):
+    url = f"https://history.opendatasoft.com/api/records/1.0/search/?dataset=manors&q=places_id%3A{place_id}&facet=places_id&facet=geometry"
+    response = requests.get(url)
+    data = response.json()
+    manors = [record['fields']['id'] for record in data['records']]
+    return manors
+```
+2. Check that calling your module does not produce any output.
+```
+import my_module
+
+place_id = 'Q21622632'
+manors = my_module.get_manor_ids(place_id)
+```
+3. To test your module, open a python interpreter and call your function with the first place id from Derbyshire.
+```
+>>> import my_module
+>>> place_id = 'Q21622632'
+>>> manors = my_module.get_manor_ids(place_id)
+>>> manors
+['21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
+```
+4. Add a if _name_ == ’__main__’ : block with your previous test, at the end of your module, to make it usable as a script.
+```
+import requests
+
+def get_manor_ids(place_id):
+    url = f"https://history.opendatasoft.com/api/records/1.0/search/?dataset=manors&q=places_id%3A{place_id}&facet=places_id&facet=geometry"
+    response = requests.get(url)
+    data = response.json()
+    manors = [record['fields']['id'] for record in data['records']]
+    return manors
+
+if __name__ == '__main__':
+    place_id = 'Q21622632'
+    manors = get_manor_ids(place_id)
+    print(manors)
+```
+5. Check that calling your module now does produce an output.
+```
+python my_module.py
+```
+6. Commit your changes in G
+```
+git add my_module.py
+git commit -m "Added get_manor_ids function to module"
+```
+## Exercice 4 Python Program
+1. Enrich your module to get all manors in all places in Derbyshire.
+```
+import requests
+
+def get_manor_ids(place_id):
+url = f"https://opendomesday.org/api/1.0/place/{place_id}/"
+response = requests.get(url)
+
+if response.status_code == 200:
+    data = response.json()
+    manors = data["manors"]
+    manor_ids = [manor["id"] for manor in manors]
+    return manor_ids
+else:
+    print(f"Error: {response.status_code}")
+    return None
+if name == "main":
+pass
+```
+2. Retrieve the geld paid and total ploughs owned by all those manors.
+```
+python manor_ids.py
+```
+3. Create a Pandas DataFrame with the same information.
+```
+from manor_ids import get_manor_ids
+place_id = "P10000"
+manor_ids = get_manor_ids(place_id)
+print(manor_ids)
+```
+4. Use Pandas to compute the sum of geld paid and total ploughs owned in Derbyshire.
+```
+if name == "main":
+place_id = "P10000" # Replace this with the first place id from Derbyshire
+manor_ids = get_manor_ids(place_id)
+print(manor_ids)
+```
+5. Add docstrings to your functions.
+```
+python manor_ids.py
+```
+6. Commit your changes in Git.
+```
+git add manor_ids.py
+git commit -m "Add script to fetch manor IDs for a given place ID"
+```
